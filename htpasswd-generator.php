@@ -14,11 +14,13 @@ add_action( 'user_register', 'htpasswd_generator', 10, 1 );
 add_action( 'profile_update', 'htpasswd_generator', 10, 2 );
 
 function htpasswd_generator($user_id, $userData) {
-    if (!isset($userData)) {
-        $useData = WP_User::get_data_by( 'id', $user_id );
+    if ($userData == null) {
+        $username = $_POST['user_login'];
+    } else {
+        $username = $userData->user_login;
     }
     if (isset($_POST['pass1-text'])) {
-        update_htpasswd($userData->user_login, $_POST['pass1-text']);
+        update_htpasswd($username, $_POST['pass1-text']);
     }
 }
 
