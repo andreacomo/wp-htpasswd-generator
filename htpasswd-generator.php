@@ -17,7 +17,9 @@ function htpasswd_generator($user_id, $userData) {
     if (!isset($userData)) {
         $useData = WP_User::get_data_by( 'id', $user_id );
     }
-    update_htpasswd($userData->user_login, $_POST['user_pass']);
+    if (isset($_POST['pass1-text'])) {
+        update_htpasswd($userData->user_login, $_POST['pass1-text']);
+    }
 }
 
 function update_htpasswd( $username, $password ) {
