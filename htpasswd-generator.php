@@ -10,18 +10,24 @@ Text Domain: Security
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-add_action( 'user_register', 'htpasswd_generator', 10, 1 );
-add_action( 'profile_update', 'htpasswd_generator', 10, 2 );
+add_action( 'user_register', 'cnj_htpasswd_generator_add', 10, 1 );
+add_action( 'profile_update', 'cnj_htpasswd_generator_add', 10, 2 );
+add_action( 'delete_user', 'cnj_htpasswd_generator_remove', 10, 1 );
 
-function htpasswd_generator($user_id, $userData) {
-    if ($userData == null) {
+function cnj_htpasswd_generator_add($user_id, $user_data) {
+    if ($user_data == null) {
         $username = $_POST['user_login'];
     } else {
-        $username = $userData->user_login;
+        $username = $user_data->user_login;
     }
     if (isset($_POST['pass1-text'])) {
         update_htpasswd($username, $_POST['pass1-text']);
     }
+}
+
+function cnj_htpasswd_generator_remove($user_id) {
+    $user_data = get_userdata( $user_id );
+    update_htpasswd($user_data->user_login);
 }
 
 function update_htpasswd( $username, $password ) {
@@ -40,7 +46,9 @@ function update_htpasswd( $username, $password ) {
             $newContent .= $line . "\r\n";
         }
     }
-    $newContent .= $username . ":" . crypt($password, base64_encode($password)) . "\r\n";
+    if (!empty($password)) {
+        $newContent .= $username . ":" . crypt($password, base64_encode($password)) . "\r\n";
+    }
     file_put_contents($file, $newContent);
 
     fclose($passwdFile);
