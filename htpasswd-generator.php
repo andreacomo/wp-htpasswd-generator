@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Htpasswd Generator
-Plugin URI: https://wordpress.org/plugins/health-check/
+Plugin URI: https://github.com/andreacomo/wp-htpasswd-generator
 Description: Sync Wordpress user and password with .htpasswd file 
 Version: 1.0.0
 Author: Andrea Como
