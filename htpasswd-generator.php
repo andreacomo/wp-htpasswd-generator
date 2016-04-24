@@ -39,6 +39,7 @@ function cnj_update_htpasswd( $username, $password ) {
     $file = plugin_dir_path(__FILE__) . ".htpasswd_generated";
     if (!file_exists($file)) {
         touch($file);
+        cnj_generate_htaccess($file);
     }
     
     $passwdFile = fopen($file, "r+") or die("Unable to open file " . $file);
@@ -59,4 +60,17 @@ function cnj_update_htpasswd( $username, $password ) {
     fclose($passwdFile);
 }
 
+function cnj_generate_htaccess($htpasswd) {
+    $content = "# enable basic authentication\r\n";
+    $content .= "AuthType Basic\r\n";
+    $content .= "# this text is displayed in the login dialog\r\n";
+    $content .= "AuthName \"Protected Resources\"\r\n";
+    $content .= "# The absolute path of the Apache htpasswd file\r\n";
+    $content .= "AuthUserFile " . $htpasswd . "\r\n";
+    $content .= "#Allows any user in the .htpasswd file to access the directory\r\n";
+    $content .= "require valid-user";
+    
+    $htaccess = plugin_dir_path(__FILE__) . "rename_me_to_.htaccess";
+    file_put_contents($htaccess, $content) or die("Unable to open file " . $htaccess);
+}
 ?>
