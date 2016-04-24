@@ -22,20 +22,20 @@ function cnj_htpasswd_generator_on_add($user_id, $user_data) {
         $username = $user_data->user_login;
     }
     if (isset($_POST['pass1-text'])) {
-        update_htpasswd($username, $_POST['pass1-text']);
+        cnj_update_htpasswd($username, $_POST['pass1-text']);
     }
 }
 
 function cnj_htpasswd_generator_on_remove($user_id) {
     $user_data = get_userdata( $user_id );
-    update_htpasswd($user_data->user_login);
+    cnj_update_htpasswd($user_data->user_login);
 }
 
 function cnj_htpasswd_generator_on_reset($user, $password) {
-    update_htpasswd($user->user_login, $password);
+    cnj_update_htpasswd($user->user_login, $password);
 }
 
-function update_htpasswd( $username, $password ) {
+function cnj_update_htpasswd( $username, $password ) {
     $file = plugin_dir_path(__FILE__) . ".htpasswd_generated";
     if (!file_exists($file)) {
         touch($file);
