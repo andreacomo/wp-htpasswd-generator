@@ -1,5 +1,5 @@
 # WordPress *.htpasswd* Generator
-Sync your WordPress users with **.htpasswd** file for enabling *Apache basic authentication* based on file
+Sync your WordPress users with **.htpasswd** file for enabling *Apache basic authentication* based on file.
 
 ## Why should I need this?
 
@@ -10,7 +10,8 @@ Then this plugin is for you.
 
 ## What should I do?
 
-1. Upload *plugin folder* to the ```/wp-content/plugins/``` directory.
+1. You can download as zip from [WordPress Plugin Directory](https://it.wordpress.org/plugins/wp-htpasswd-generator/) or [GitHub](https://github.com/andreacomo/wp-htpasswd-generator/releases)
+1. Unzip and upload *plugin folder* to the ```/wp-content/plugins/``` directory.
 1. Activate the plugin through the "Plugins" menu in WordPress.
 1. *First time* you create a new user or update user's password after plugin activation, ```rename_me_to_.htaccess``` will be created in plugin directory along with ```.htpasswd_generated```, which contains credentials synchronized with WordPress database
 1. Move ```rename_me_to_.htaccess``` to directory you want to protect and rename it as ```.htaccess```
