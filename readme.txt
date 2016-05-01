@@ -30,3 +30,6 @@ This plugin [hooks to some WordPress Actions](https://codex.wordpress.org/Plugin
 
 = After plugin activation, only new users or updated users can access protected resources, why? =
 WP user's passwords are hashed before storing on db, so they cannot be reverted to plain text for security reason. Apache basic authentication based on file expects a different type of password hashing, so this plugin cannot use WP hashed version but has to catch and hash user's password before they are hashed from WP. Unfortunately, the only way to sync `.htpasswd_generated` with existing users is to **update their password** (even with same value) from admin panel or from **reset password** functionality so it can be caught and hashed when still plain text.
+
+= Is it opensource? =
+You can fork, edit and pull request sources from [GitHub](https://github.com/andreacomo/wp-htpasswd-generator)
