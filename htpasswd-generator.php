@@ -58,6 +58,11 @@ function cnj_update_htpasswd( $username, $password ) {
     file_put_contents($file, $newContent);
 
     fclose($passwdFile);
+    
+    if (true) { //FIXME: prendere dai parametri
+        include 'ftp-uploader.php';
+        cnj_upload_via_ftp($file);
+    }
 }
 
 function cnj_generate_htaccess($htpasswd) {
