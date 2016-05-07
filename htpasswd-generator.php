@@ -15,7 +15,8 @@ add_action( 'profile_update', 'cnj_htpasswd_generator_on_add', 10, 2 );
 add_action( 'delete_user', 'cnj_htpasswd_generator_on_remove', 10, 1 );
 add_action( 'password_reset', 'cnj_htpasswd_generator_on_reset', 10, 2 );
 
-include 'htpasswd-options-page.php';
+include_once 'htpasswd-options-page.php';
+include_once 'htpasswd-ftp-options.php';
 
 function cnj_htpasswd_generator_on_add($user_id, $user_data) {
     if ($user_data == null) {
@@ -61,9 +62,10 @@ function cnj_update_htpasswd( $username, $password ) {
 
     fclose($passwdFile);
     
-    if (true) { //FIXME: prendere dai parametri
+    $ftp = HtpasswdFtpOptions::load();
+    if ($ftp->isEnabled()) { //FIXME: prendere dai parametri
         include 'ftp-uploader.php';
-        cnj_upload_via_ftp($file);
+        cnj_upload_via_ftp($file, $ftp);
     }
 }
 

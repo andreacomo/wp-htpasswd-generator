@@ -33,3 +33,9 @@ WP user's passwords are hashed before storing on db, so they cannot be reverted 
 
 = Is it opensource? =
 You can fork, edit and pull request sources from [GitHub](https://github.com/andreacomo/wp-htpasswd-generator)
+
+== Changelog ==
+= 1.1.0 =
+
+* **New FTP upload feature**: if you need to protect a remote resource (on another server than WordPress installation), you can upload `.htpasswd_generated` automatically via FTP to another server. Remember to configure `.htaccess` file properly on remote server.
+
