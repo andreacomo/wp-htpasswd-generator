@@ -3,7 +3,7 @@
 Plugin Name: Htpasswd Generator
 Plugin URI: https://it.wordpress.org/plugins/wp-htpasswd-generator/
 Description: Sync Wordpress user and password with .htpasswd file 
-Version: 1.0.0
+Version: 1.1.0
 Author: Andrea Como
 Author URI: http://codingjam.it
 Text Domain: Security
@@ -16,7 +16,10 @@ add_action( 'delete_user', 'cnj_htpasswd_generator_on_remove', 10, 1 );
 add_action( 'password_reset', 'cnj_htpasswd_generator_on_reset', 10, 2 );
 
 include_once 'htpasswd-options-page.php';
-include_once 'htpasswd-ftp-options.php';
+include_once 'htpasswd-options-ftp.php';
+include_once 'htpasswd-options-generic.php';
+include_once 'ftp-client.php';
+include_once 'utils.php';
 
 function cnj_htpasswd_generator_on_add($user_id, $user_data) {
     if ($user_data == null) {
@@ -39,10 +42,10 @@ function cnj_htpasswd_generator_on_reset($user, $password) {
 }
 
 function cnj_update_htpasswd( $username, $password ) {
-    $file = plugin_dir_path(__FILE__) . ".htpasswd_generated";
+    $file = HtaccessUtils::getHtpasswdPath();
     if (!file_exists($file)) {
         touch($file);
-        cnj_generate_htaccess($file);
+        HtaccessUtils::generateHtaccess($file);
     }
     
     $passwdFile = fopen($file, "r+") or die("Unable to open file " . $file);
@@ -63,23 +66,22 @@ function cnj_update_htpasswd( $username, $password ) {
     fclose($passwdFile);
     
     $ftp = HtpasswdFtpOptions::load();
-    if ($ftp->isEnabled()) { //FIXME: prendere dai parametri
+    if ($ftp->isEnabled()) {
         include 'ftp-uploader.php';
         cnj_upload_via_ftp($file, $ftp);
     }
+    $options = HtpasswdGenericOptions::load();
+    if ($options->hasPaths()) {
+        foreach ($options->getPathsAsArray() as $destination) {
+            HtaccessUtils::copyHtaccessTo($destination);
+        }
+    }
 }
 
-function cnj_generate_htaccess($htpasswd) {
-    $content = "# enable basic authentication\r\n";
-    $content .= "AuthType Basic\r\n";
-    $content .= "# this text is displayed in the login dialog\r\n";
-    $content .= "AuthName \"Protected Resources\"\r\n";
-    $content .= "# The absolute path of the Apache htpasswd file\r\n";
-    $content .= "AuthUserFile " . $htpasswd . "\r\n";
-    $content .= "#Allows any user in the .htpasswd file to access the directory\r\n";
-    $content .= "require valid-user";
-    
-    $htaccess = plugin_dir_path(__FILE__) . "rename_me_to_.htaccess";
-    file_put_contents($htaccess, $content) or die("Unable to open file " . $htaccess);
+function cnj_upload_via_ftp($file, $ftp) {
+    FtpClient::connect($ftp->getServer(), $ftp->getPort())
+        ->withCredentials($ftp->getUsername(), $ftp->getPassword())
+        ->upload($file, $ftp->getDestinationPath() . basename($file))
+        ->close();
 }
 ?>
