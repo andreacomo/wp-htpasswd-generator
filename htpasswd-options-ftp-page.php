@@ -32,15 +32,6 @@ class FtpSettingsPage
     }
 
     /**
-     * Options page callback
-     */
-    public function add_settings_to_page()
-    {
-        settings_fields($this->option_group);
-        //do_settings_sections($this->page_id);
-    }
-
-    /**
      * Register and add settings
      */
     public function page_init()

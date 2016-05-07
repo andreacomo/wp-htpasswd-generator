@@ -63,7 +63,7 @@ function cnj_update_htpasswd( $username, $password ) {
     fclose($passwdFile);
     
     $ftp = HtpasswdFtpOptions::load();
-    if ($ftp->isEnabled()) { //FIXME: prendere dai parametri
+    if ($ftp->isEnabled()) {
         include 'ftp-uploader.php';
         cnj_upload_via_ftp($file, $ftp);
     }

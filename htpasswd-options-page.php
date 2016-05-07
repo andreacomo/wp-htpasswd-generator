@@ -51,8 +51,6 @@ class HtpasswdSettingsPage
             <form method="post" action="options.php">
             <?php
                 // This prints out all hidden setting fields
-                //$this->generic_page_section->add_settings_to_page();
-                //$this->ftp_page_section->add_settings_to_page();
                 settings_fields($this->option_group);
                 do_settings_sections($this->page_id);
                 submit_button(); 
