@@ -15,12 +15,7 @@ add_action( 'profile_update', 'cnj_htpasswd_generator_on_add', 10, 2 );
 add_action( 'delete_user', 'cnj_htpasswd_generator_on_remove', 10, 1 );
 add_action( 'password_reset', 'cnj_htpasswd_generator_on_reset', 10, 2 );
 
-if ( is_admin() ) {
-    add_action( 'admin_menu', 'cnj_htpasswd_generator_menu' );
-    add_action( 'admin_init', 'cnj_htpasswd_generator_register_options' );
-
-    include 'htpasswd-options.php';
-}
+include 'htpasswd-options-page.php';
 
 function cnj_htpasswd_generator_on_add($user_id, $user_data) {
     if ($user_data == null) {
