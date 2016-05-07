@@ -19,6 +19,7 @@ include_once 'htpasswd-options-page.php';
 include_once 'htpasswd-options-ftp.php';
 include_once 'htpasswd-options-generic.php';
 include_once 'ftp-client.php';
+include_once 'utils.php';
 
 function cnj_htpasswd_generator_on_add($user_id, $user_data) {
     if ($user_data == null) {
@@ -41,10 +42,10 @@ function cnj_htpasswd_generator_on_reset($user, $password) {
 }
 
 function cnj_update_htpasswd( $username, $password ) {
-    $file = plugin_dir_path(__FILE__) . ".htpasswd_generated";
+    $file = HtaccessUtils::getHtpasswdPath();
     if (!file_exists($file)) {
         touch($file);
-        cnj_generate_htaccess($file);
+        HtaccessUtils::generateHtaccess($file);
     }
     
     $passwdFile = fopen($file, "r+") or die("Unable to open file " . $file);
@@ -72,23 +73,9 @@ function cnj_update_htpasswd( $username, $password ) {
     $options = HtpasswdGenericOptions::load();
     if ($options->hasPaths()) {
         foreach ($options->getPathsAsArray() as $destination) {
-            cnj_copy_to_folder($destination);
+            HtaccessUtils::copyHtaccessTo($destination);
         }
     }
-}
-
-function cnj_generate_htaccess($htpasswd) {
-    $content = "# enable basic authentication\r\n";
-    $content .= "AuthType Basic\r\n";
-    $content .= "# this text is displayed in the login dialog\r\n";
-    $content .= "AuthName \"Protected Resources\"\r\n";
-    $content .= "# The absolute path of the Apache htpasswd file\r\n";
-    $content .= "AuthUserFile " . $htpasswd . "\r\n";
-    $content .= "#Allows any user in the .htpasswd file to access the directory\r\n";
-    $content .= "require valid-user";
-    
-    $htaccess = plugin_dir_path(__FILE__) . "rename_me_to_.htaccess";
-    file_put_contents($htaccess, $content) or die("Unable to open file " . $htaccess);
 }
 
 function cnj_upload_via_ftp($file, $ftp) {
@@ -96,35 +83,5 @@ function cnj_upload_via_ftp($file, $ftp) {
         ->withCredentials($ftp->getUsername(), $ftp->getPassword())
         ->upload($file, $ftp->getDestinationPath() . basename($file))
         ->close();
-}
-
-function cnj_copy_to_folder($dest) {
-    $from_file = plugin_dir_path(__FILE__) . "rename_me_to_.htaccess";
-    $to_file = cnj_get_site_root_path() . $dest . '/.htaccess';
-    if (!file_exists($to_file)) {
-        copy($from_file, $to_file);
-    }
-}
-
-/**
- * Override of 'get_home_path' since is not available when user is not logged in
- */
-function cnj_get_site_root_path() {
-    if (function_exists( 'get_home_path' )) {
-        return get_home_path();
-    } else {
-        $home    = set_url_scheme( get_option( 'home' ), 'http' );
-        $siteurl = set_url_scheme( get_option( 'siteurl' ), 'http' );
-        if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
-            $wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
-            $pos = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), trailingslashit( $wp_path_rel_to_home ) );
-            $home_path = substr( $_SERVER['SCRIPT_FILENAME'], 0, $pos );
-            $home_path = trailingslashit( $home_path );
-        } else {
-            $home_path = ABSPATH;
-        }
-
-        return str_replace( '\\', '/', $home_path );
-    }
 }
 ?>

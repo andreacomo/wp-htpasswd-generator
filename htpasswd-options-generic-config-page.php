@@ -73,6 +73,7 @@ class GenericSettingsPage
         foreach ($input as $key => $value) {
             $new_input[$key] = sanitize_text_field($value);
         }
+        $this->copy_htaccess($new_input);
         return $new_input;
     }
 
@@ -82,7 +83,7 @@ class GenericSettingsPage
     public function print_section_info()
     {
         print '<p>You can specify <strong>resources path you want to protect</strong> on your server, coma separated folders such as \'<tt>/folder1, /folder2</tt>\', starting from <em>web server root path</em></p>' .
-        '<p>During user\'s profile update, <tt>.htaccess</tt> file will be copied into specified server folders <em>if do not exists</em></p>';
+        '<p>If you want to remove security on a folder, you have to remove <tt>.htaccess</tt> file manually</p>';
     }
     
     /** 
@@ -95,5 +96,15 @@ class GenericSettingsPage
             '<input type="text" autocomplete="off" id="resource_paths" name="cnj_htpasswd_generic_options[resource_paths]" value="%s" />',
             isset( $val ) ? esc_attr($val) : ''
         );
+    }
+    
+    private function copy_htaccess($input) {
+        HtaccessUtils::generateHtaccess(HtaccessUtils::getHtpasswdPath());
+        $options = HtpasswdGenericOptions::from($input);
+        if ($options->hasPaths()) {
+            foreach ($options->getPathsAsArray() as $destination) {
+                HtaccessUtils::copyHtaccessTo($destination);
+            }
+        }
     }
 }

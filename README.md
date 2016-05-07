@@ -12,10 +12,14 @@ Then this plugin is for you.
 
 1. You can download as zip from [WordPress Plugin Directory](https://it.wordpress.org/plugins/wp-htpasswd-generator/) or [GitHub](https://github.com/andreacomo/wp-htpasswd-generator/releases)
 1. Unzip and upload *plugin folder* to the ```/wp-content/plugins/``` directory.
-1. Activate the plugin through the "Plugins" menu in WordPress.
-1. *First time* you create a new user or update user's password after plugin activation, ```rename_me_to_.htaccess``` will be created in plugin directory along with ```.htpasswd_generated```, which contains credentials synchronized with WordPress database
-1. Move ```rename_me_to_.htaccess``` to directory you want to protect and rename it as ```.htaccess```
-1. Now Apache will ask for basic authentication while trying to access resources in that directory
+1. Activate the plugin through the *Plugins* menu in WordPress.
+1. Go to *Htpasswd Generator* settings page under WordPress *Settings* menu
+1. Fill *Generic Settings* section to provide resource paths to protect. Remember that resource folders must alredy exist
+1. Now Apache will ask for basic authentication while trying to access that resources
+
+### Advanced options
+If you want to protect resources with WordPress credential on another server, you can provide FTP credentials:
+this plugin will take care to copy `.htpasswd_generated` to remote server. It's up to you then to configure Apache `.htaccess` file propertly.
 
 ## FAQ
 #### How WordPress users are synchronized with *.htpasswd_generated* file? 
@@ -33,4 +37,5 @@ WP user's passwords are hashed before storing on db, so they cannot be reverted 
 
 ### 1.1.0
 
-* **New FTP upload feature**: if you need to protect a remote resource (on another server than WordPress installation), you can upload `.htpasswd_generated` automatically via FTP to another server. Remember to configure `.htaccess` file properly on remote server.
+* **Automatic folder protection**: now in new settings page you can specify folders path you want to protect: **no more need** to move and replace ```rename_me_to_.htaccess``` manually!
+* **New FTP upload feature**: if you need to protect a remote resource (on another server than WordPress installation), you can upload ```.htpasswd_generated``` automatically via FTP to another server. Remember to configure `.htaccess` file properly on remote server.

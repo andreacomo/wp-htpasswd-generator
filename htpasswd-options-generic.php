@@ -15,6 +15,10 @@ class HtpasswdGenericOptions
         return new HtpasswdGenericOptions(get_option(HtpasswdGenericOptions::$name));
     }
     
+    public static function from($option_map) {
+        return new HtpasswdGenericOptions($option_map);
+    }
+    
     public function getPaths() {
         return $this->options[HtpasswdGenericOptions::$resource_paths];
     }
