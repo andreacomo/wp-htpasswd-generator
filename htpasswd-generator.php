@@ -3,7 +3,7 @@
 Plugin Name: Htpasswd Generator
 Plugin URI: https://it.wordpress.org/plugins/wp-htpasswd-generator/
 Description: Sync Wordpress user and password with .htpasswd file 
-Version: 1.0.0
+Version: 1.1.0
 Author: Andrea Como
 Author URI: http://codingjam.it
 Text Domain: Security
@@ -16,7 +16,7 @@ add_action( 'delete_user', 'cnj_htpasswd_generator_on_remove', 10, 1 );
 add_action( 'password_reset', 'cnj_htpasswd_generator_on_reset', 10, 2 );
 
 include_once 'htpasswd-options-page.php';
-include_once 'htpasswd-ftp-options.php';
+include_once 'htpasswd-options-ftp.php';
 
 function cnj_htpasswd_generator_on_add($user_id, $user_data) {
     if ($user_data == null) {
