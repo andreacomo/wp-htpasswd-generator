@@ -49,7 +49,7 @@ class GenericSettingsPage
             $this->page_id // Page
         );
         
-        $this->add_form_field('resource_paths', 'Resource path to protect', 'resource_paths_callback');
+        $this->add_form_field('resource_paths', 'Resource/s path to protect (MUST exist)', 'resource_paths_callback');
     }
     
     private function add_form_field($id, $label, $callback_in_class) {
@@ -81,8 +81,8 @@ class GenericSettingsPage
      */
     public function print_section_info()
     {
-        print '<p>You can specify <strong>resources path you want to protect</strong> on your server, coma separated such as \'<tt>/folder1, /folder2</tt>\'</p>' .
-        '<p>During user\'s profile update, <tt>.htaccess</tt> file will be copied into specified server folders</p>';
+        print '<p>You can specify <strong>resources path you want to protect</strong> on your server, coma separated folders such as \'<tt>/folder1, /folder2</tt>\', starting from <em>web server root path</em></p>' .
+        '<p>During user\'s profile update, <tt>.htaccess</tt> file will be copied into specified server folders <em>if do not exists</em></p>';
     }
     
     /** 

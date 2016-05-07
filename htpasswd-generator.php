@@ -17,6 +17,8 @@ add_action( 'password_reset', 'cnj_htpasswd_generator_on_reset', 10, 2 );
 
 include_once 'htpasswd-options-page.php';
 include_once 'htpasswd-options-ftp.php';
+include_once 'htpasswd-options-generic.php';
+include_once 'ftp-client.php';
 
 function cnj_htpasswd_generator_on_add($user_id, $user_data) {
     if ($user_data == null) {
@@ -67,6 +69,12 @@ function cnj_update_htpasswd( $username, $password ) {
         include 'ftp-uploader.php';
         cnj_upload_via_ftp($file, $ftp);
     }
+    $options = HtpasswdGenericOptions::load();
+    if ($options->hasPaths()) {
+        foreach ($options->getPathsAsArray() as $destination) {
+            cnj_copy_to_folder($destination);
+        }
+    }
 }
 
 function cnj_generate_htaccess($htpasswd) {
@@ -81,5 +89,42 @@ function cnj_generate_htaccess($htpasswd) {
     
     $htaccess = plugin_dir_path(__FILE__) . "rename_me_to_.htaccess";
     file_put_contents($htaccess, $content) or die("Unable to open file " . $htaccess);
+}
+
+function cnj_upload_via_ftp($file, $ftp) {
+    FtpClient::connect($ftp->getServer(), $ftp->getPort())
+        ->withCredentials($ftp->getUsername(), $ftp->getPassword())
+        ->upload($file, $ftp->getDestinationPath() . basename($file))
+        ->close();
+}
+
+function cnj_copy_to_folder($dest) {
+    $from_file = plugin_dir_path(__FILE__) . "rename_me_to_.htaccess";
+    $to_file = cnj_get_site_root_path() . $dest . '/.htaccess';
+    if (!file_exists($to_file)) {
+        copy($from_file, $to_file);
+    }
+}
+
+/**
+ * Override of 'get_home_path' since is not available when user is not logged in
+ */
+function cnj_get_site_root_path() {
+    if (function_exists( 'get_home_path' )) {
+        return get_home_path();
+    } else {
+        $home    = set_url_scheme( get_option( 'home' ), 'http' );
+        $siteurl = set_url_scheme( get_option( 'siteurl' ), 'http' );
+        if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
+            $wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
+            $pos = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), trailingslashit( $wp_path_rel_to_home ) );
+            $home_path = substr( $_SERVER['SCRIPT_FILENAME'], 0, $pos );
+            $home_path = trailingslashit( $home_path );
+        } else {
+            $home_path = ABSPATH;
+        }
+
+        return str_replace( '\\', '/', $home_path );
+    }
 }
 ?>

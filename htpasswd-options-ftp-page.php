@@ -86,10 +86,10 @@ class FtpSettingsPage
                     $new_input[$key] = absint($value);
                     break;
                 case HtpasswdFtpOptions::$ftp_dest_path:
-                    $new_input[$key] = $value != '' ? sanitize_text_field($value) : '/';
+                    $new_input[$key] = !empty($value) ? sanitize_text_field($value) : '/';
                     break;
                 case HtpasswdFtpOptions::$ftp_port:
-                    $new_input[$key] = $value != '' ? absint($value) : '21';
+                    $new_input[$key] = !empty($value) ? absint($value) : '21';
                     break;
                 default:
                     $new_input[$key] = sanitize_text_field($value);
