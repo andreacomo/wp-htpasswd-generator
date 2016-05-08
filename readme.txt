@@ -3,7 +3,7 @@ Contributors: andreacomo
 Tags: security, basic authentication, htaccess, htpasswd
 Requires at least: 4.4.2
 Tested up to: 4.4.2
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
