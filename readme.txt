@@ -19,7 +19,7 @@ Want to protect resources in a folder only to registered users in your WordPress
 1. Fill *Generic Settings* section to provide resource paths to protect. Remember that resource folders must alredy exist
 1. Now Apache will ask for basic authentication while trying to access that resources
 
-=== Advanced options ===
+== Advanced options ==
 If you want to protect resources with WordPress credential on another server, you can provide FTP credentials:
 this plugin will take care to copy `.htpasswd_generated` to remote server. It's up to you then to configure Apache `.htaccess` file propertly.
 
