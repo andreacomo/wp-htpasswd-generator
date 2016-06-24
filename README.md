@@ -35,6 +35,9 @@ WP user's passwords are hashed before storing on db, so they cannot be reverted 
 
 ## Changelog
 
+### 1.1.2
+* No new feature. Just needed to meet WordPress update system 
+
 ### 1.1.1
 * Fixed issue #1: switched encryption algorithm to *APR1-MD5*, compatible with **Apache 2.2.18 and above**, both on Linux and Windows
 
@@ -42,3 +45,10 @@ WP user's passwords are hashed before storing on db, so they cannot be reverted 
 
 * **Automatic folder protection**: now in new settings page you can specify folders path you want to protect: **no more need** to move and replace ```rename_me_to_.htaccess``` manually!
 * **New FTP upload feature**: if you need to protect a remote resource (on another server than WordPress installation), you can upload ```.htpasswd_generated``` automatically via FTP to another server. Remember to configure `.htaccess` file properly on remote server.
+
+#### Memento for me on WP handling
+
+To upgrade a plugin version remember remember to change:
+
+* *Version* on plugin header of main file
+* *Stable tag* on ```readme.txt```
