@@ -35,6 +35,9 @@ WP user's passwords are hashed before storing on db, so they cannot be reverted 
 
 ## Changelog
 
+### 1.1.2
+* No new feature. Just needed to meet WordPress update system 
+
 ### 1.1.1
 * Fixed issue #1: switched encryption algorithm to *APR1-MD5*, compatible with **Apache 2.2.18 and above**, both on Linux and Windows
 

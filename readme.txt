@@ -3,7 +3,7 @@ Contributors: andreacomo
 Tags: security, basic authentication, htaccess, htpasswd
 Requires at least: 4.4.2
 Tested up to: 4.4.2
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -43,6 +43,10 @@ You can fork, edit and pull request sources from [GitHub](https://github.com/and
 1. Htpasswd Generator settings page
 
 == Changelog ==
+
+= 1.1.2 =
+
+* No new feature. Just needed to meet WordPress update system
 
 = 1.1.1 =
 
