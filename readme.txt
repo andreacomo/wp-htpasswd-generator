@@ -7,7 +7,7 @@ Stable tag: 1.1.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
-Sync your WordPress users with `.htpasswd` file for enabling Apache (2.2.18 and above) basic authentication based on file for your resources
+Sync your WordPress users with .htpasswd file for enabling Apache (2.2.18 and above) basic authentication based on file for your resources
 
 == Description ==
 Want to protect resources in a folder only to registered users in your WordPress installation? This plugin sync any WP users with Apache basic authentication system file-based automagically: accessing protected resources will prompt for WordPress account credentials
