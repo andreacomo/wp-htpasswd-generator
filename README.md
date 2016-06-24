@@ -35,6 +35,9 @@ WP user's passwords are hashed before storing on db, so they cannot be reverted 
 
 ## Changelog
 
+### 1.1.1
+* Fixed issue #1: switched encryption algorithm to *APR1-MD5*, compatible with **Apache 2.2.18 and above**, both on Linux and Windows
+
 ### 1.1.0
 
 * **Automatic folder protection**: now in new settings page you can specify folders path you want to protect: **no more need** to move and replace ```rename_me_to_.htaccess``` manually!
