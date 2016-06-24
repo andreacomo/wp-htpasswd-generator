@@ -20,6 +20,7 @@ include_once 'htpasswd-options-ftp.php';
 include_once 'htpasswd-options-generic.php';
 include_once 'ftp-client.php';
 include_once 'utils.php';
+include_once 'crypt_apr1_md5.php';
 
 function cnj_htpasswd_generator_on_add($user_id, $user_data) {
     if ($user_data == null) {
@@ -59,7 +60,7 @@ function cnj_update_htpasswd( $username, $password ) {
         }
     }
     if (!empty($password)) {
-        $newContent .= $username . ":" . crypt($password, base64_encode($password)) . "\r\n";
+        $newContent .= $username . ":" . crypt_apr1_md5($password) . "\r\n";
     }
     file_put_contents($file, $newContent);
 

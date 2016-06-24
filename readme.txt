@@ -3,11 +3,11 @@ Contributors: andreacomo
 Tags: security, basic authentication, htaccess, htpasswd
 Requires at least: 4.4.2
 Tested up to: 4.4.2
-Stable tag: 1.0.0
+Stable tag: 1.1.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
-Sync your WordPress users with `.htpasswd` file for enabling Apache basic authentication based on file for your resources
+Sync your WordPress users with `.htpasswd` file for enabling Apache (2.2.18 and above) basic authentication based on file for your resources
 
 == Description ==
 Want to protect resources in a folder only to registered users in your WordPress installation? This plugin sync any WP users with Apache basic authentication system file-based automagically: accessing protected resources will prompt for WordPress account credentials
@@ -19,7 +19,7 @@ Want to protect resources in a folder only to registered users in your WordPress
 1. Fill *Generic Settings* section to provide resource paths to protect. Remember that resource folders must alredy exist
 1. Now Apache will ask for basic authentication while trying to access that resources
 
-=== Advanced options ===
+== Advanced options ==
 If you want to protect resources with WordPress credential on another server, you can provide FTP credentials:
 this plugin will take care to copy `.htpasswd_generated` to remote server. It's up to you then to configure Apache `.htaccess` file propertly.
 
@@ -43,6 +43,11 @@ You can fork, edit and pull request sources from [GitHub](https://github.com/and
 1. Htpasswd Generator settings page
 
 == Changelog ==
+
+= 1.1.1 =
+
+* Fixed issue #1: switched encryption algorithm to *APR1-MD5*, compatible with **Apache 2.2.18 and above**, both on Linux and Windows
+
 = 1.1.0 =
 
 * **Automatic folder protection**: now in new settings page you can specify folders path you want to protect: **no more need** to move and rename `rename_me_to_.htaccess` manually! 
